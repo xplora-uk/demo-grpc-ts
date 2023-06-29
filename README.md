@@ -25,7 +25,7 @@ None
 ## build
 
 ```sh
-# after you change demo.proto file
+# after you change like.proto file
 npm run generate
 
 npm run build
@@ -34,7 +34,7 @@ npm run build
 ## execution
 
 ```sh
-# run transpiled JS code
+# run transpiled code in JS
 npm run start
 
 # run TS code
