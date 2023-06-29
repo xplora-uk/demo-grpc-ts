@@ -1,0 +1,27 @@
+{
+  "name": "demo-grpc-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./build",
+  "scripts": {
+    "start": "node .",
+    "start:dev": "ts-node ./src/index.ts",
+    "build:ts": "tsc --project ./tsconfig.build.json",
+    "build": "rimraf ./build && npm run build:ts",
+    "generate:grpc": "protoc --plugin=$(npm root)/.bin/protoc-gen-ts_proto --ts_proto_out=src/generated --ts_proto_opt=outputServices=grpc-js --ts_proto_opt=esModuleInterop=true -I=./ ./*.proto",
+    "generate": "rimraf src/generated/*.ts && npm run generate:grpc",
+    "test:grpcurl": "grpcurl -plaintext -proto like.proto -d '{\"userId\": \"u1\", \"campaignId\": \"c2\"}' 127.0.0.1:50051 like.LikeService/likeCampaign"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "rimraf": "^5.0.1",
+    "ts-node": "^10.9.1",
+    "ts-proto": "^1.150.1",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.8.17"
+  }
+}

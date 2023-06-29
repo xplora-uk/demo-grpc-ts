@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package like;
+
+service LikeService {
+  rpc likeCampaign(LikeCampaignRequest) returns (LikeCampaignResponse);
+}
+
+message LikeCampaignRequest {
+  string userId = 1;
+  string campaignId = 2;
+}
+
+message LikeCampaignResponse {
+  string error = 1;
+  bool success = 2;
+}
