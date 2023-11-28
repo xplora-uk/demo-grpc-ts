@@ -1,13 +1,10 @@
 /* eslint-disable */
-import {
+import { ChannelCredentials, Client, makeGenericClientConstructor, Metadata } from "@grpc/grpc-js";
+import type {
   CallOptions,
-  ChannelCredentials,
-  Client,
   ClientOptions,
   ClientUnaryCall,
   handleUnaryCall,
-  makeGenericClientConstructor,
-  Metadata,
   ServiceError,
   UntypedServiceImplementation,
 } from "@grpc/grpc-js";
@@ -17,6 +14,7 @@ export const protobufPackage = "like";
 
 export interface LikeCampaignRequest {
   userId: string;
+  date: string;
   campaignId: string;
 }
 
@@ -26,7 +24,7 @@ export interface LikeCampaignResponse {
 }
 
 function createBaseLikeCampaignRequest(): LikeCampaignRequest {
-  return { userId: "", campaignId: "" };
+  return { userId: "", date: "", campaignId: "" };
 }
 
 export const LikeCampaignRequest = {
@@ -34,8 +32,11 @@ export const LikeCampaignRequest = {
     if (message.userId !== "") {
       writer.uint32(10).string(message.userId);
     }
+    if (message.date !== "") {
+      writer.uint32(18).string(message.date);
+    }
     if (message.campaignId !== "") {
-      writer.uint32(18).string(message.campaignId);
+      writer.uint32(26).string(message.campaignId);
     }
     return writer;
   },
@@ -59,6 +60,13 @@ export const LikeCampaignRequest = {
             break;
           }
 
+          message.date = reader.string();
+          continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.campaignId = reader.string();
           continue;
       }
@@ -72,25 +80,33 @@ export const LikeCampaignRequest = {
 
   fromJSON(object: any): LikeCampaignRequest {
     return {
-      userId: isSet(object.userId) ? String(object.userId) : "",
-      campaignId: isSet(object.campaignId) ? String(object.campaignId) : "",
+      userId: isSet(object.userId) ? globalThis.String(object.userId) : "",
+      date: isSet(object.date) ? globalThis.String(object.date) : "",
+      campaignId: isSet(object.campaignId) ? globalThis.String(object.campaignId) : "",
     };
   },
 
   toJSON(message: LikeCampaignRequest): unknown {
     const obj: any = {};
-    message.userId !== undefined && (obj.userId = message.userId);
-    message.campaignId !== undefined && (obj.campaignId = message.campaignId);
+    if (message.userId !== "") {
+      obj.userId = message.userId;
+    }
+    if (message.date !== "") {
+      obj.date = message.date;
+    }
+    if (message.campaignId !== "") {
+      obj.campaignId = message.campaignId;
+    }
     return obj;
   },
 
   create<I extends Exact<DeepPartial<LikeCampaignRequest>, I>>(base?: I): LikeCampaignRequest {
-    return LikeCampaignRequest.fromPartial(base ?? {});
+    return LikeCampaignRequest.fromPartial(base ?? ({} as any));
   },
-
   fromPartial<I extends Exact<DeepPartial<LikeCampaignRequest>, I>>(object: I): LikeCampaignRequest {
     const message = createBaseLikeCampaignRequest();
     message.userId = object.userId ?? "";
+    message.date = object.date ?? "";
     message.campaignId = object.campaignId ?? "";
     return message;
   },
@@ -143,22 +159,25 @@ export const LikeCampaignResponse = {
 
   fromJSON(object: any): LikeCampaignResponse {
     return {
-      error: isSet(object.error) ? String(object.error) : "",
-      success: isSet(object.success) ? Boolean(object.success) : false,
+      error: isSet(object.error) ? globalThis.String(object.error) : "",
+      success: isSet(object.success) ? globalThis.Boolean(object.success) : false,
     };
   },
 
   toJSON(message: LikeCampaignResponse): unknown {
     const obj: any = {};
-    message.error !== undefined && (obj.error = message.error);
-    message.success !== undefined && (obj.success = message.success);
+    if (message.error !== "") {
+      obj.error = message.error;
+    }
+    if (message.success === true) {
+      obj.success = message.success;
+    }
     return obj;
   },
 
   create<I extends Exact<DeepPartial<LikeCampaignResponse>, I>>(base?: I): LikeCampaignResponse {
-    return LikeCampaignResponse.fromPartial(base ?? {});
+    return LikeCampaignResponse.fromPartial(base ?? ({} as any));
   },
-
   fromPartial<I extends Exact<DeepPartial<LikeCampaignResponse>, I>>(object: I): LikeCampaignResponse {
     const message = createBaseLikeCampaignResponse();
     message.error = object.error ?? "";
@@ -210,7 +229,8 @@ export const LikeServiceClient = makeGenericClientConstructor(LikeServiceService
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 export type DeepPartial<T> = T extends Builtin ? T
-  : T extends Array<infer U> ? Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
 

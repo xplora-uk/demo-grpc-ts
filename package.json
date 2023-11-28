@@ -13,8 +13,8 @@
     "test:grpcurl": "grpcurl -plaintext -proto like.proto -d '{\"userId\": \"u1\", \"campaignId\": \"c2\"}' 127.0.0.1:50051 like.LikeService/likeCampaign"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Xplora R&D Team",
+  "license": "SEE LICENSE IN LICENSE",
   "devDependencies": {
     "rimraf": "^5.0.1",
     "ts-node": "^10.9.1",

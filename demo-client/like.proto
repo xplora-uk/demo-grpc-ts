@@ -8,8 +8,7 @@ service LikeService {
 
 message LikeCampaignRequest {
   string userId = 1;
-  string date = 2;
-  string campaignId = 3;
+  string campaignId = 2;
 }
 
 message LikeCampaignResponse {
